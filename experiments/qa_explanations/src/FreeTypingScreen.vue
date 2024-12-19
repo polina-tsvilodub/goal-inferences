@@ -56,10 +56,10 @@ function createText(trial){
       if(trial.correct_response != "main"){
         var slide_text = [vignette_start, context, vignette_continuation, "\"".concat(question).concat("\""), "\\n\\n"].join(" ");
       } else {
-        var response = trial.answer
+        var response = trial.competitor_response //trial.answer
         var character = character_response.replace(" replies:", "").toLowerCase();
         console.log(character)
-        var slide_text = [vignette_start, context, vignette_continuation, "\"".concat(question).concat("\""), "\\n\\n", character_response, '"', response.trim(), '"', "\\n\\n", "Why do you think ", character, " said that? Please provide an explanation."].join(" ");
+        var slide_text = [vignette_start, context, vignette_continuation, "\"".concat(question).concat("\""), "\\n\\n", character_response, ['"', response.trim(), '"'].join(""), "\\n\\n", "Please explain to Bo why the ", character, " response is reasonable, i.e., which thoughts would justify giving this response instead of another one."].join(" ");
       }
       return slide_text
 };

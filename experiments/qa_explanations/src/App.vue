@@ -17,8 +17,13 @@
       By pressing the button 'Next' you confirm that you are at least 18 years old and agree to participate in this study. 
     </InstructionScreen>
     <InstructionScreen :title="'Instructions'">
-      In the following, you will see short descriptions of scenes that you could observe in everyday life. In each scene, one
-      person asks a question and another person answers it. Your task is to explain <b>why, intuitively, you think the answerer provided the specific answer</b> they did.
+      Imagine you have met a curious alien Bo. Bo has learned English using a dictionary on its way to Earth, and is now trying to understand how humans communicate in real life. 
+      You take Bo on a walk through your neighborhood and explain to Bo how humans talk to each other.
+      <br />
+      In the following, you will see short descriptions of everyday scenes that you and Bo observe on your walk. 
+      In each scene, one person asks a question and another person answers it. <br />
+      Your task is to <b>help Bo undestand how and why humans use language, in particular, to answer questions</b>. <br />
+      For each scene, <b>please explain to Bo why the answerer's response is reasonable</b>, i.e., which thoughts would justify giving this response instead of another one.
       <br />
       <br />
       Notice that there will also be simple <b>attention checking</b> trials. 
@@ -28,7 +33,10 @@
       <br />
       Please respond naturally and reasonably. <br />
       Please avoid jokes, insults or otherwise making the dialogues into
-      something else than simple, harmless exchanges of information.
+      something else than simple, harmless interactions with Bo.
+      <br />
+      <br />
+      Press 'Next' to start the experiment.
     </InstructionScreen>
 
     <template v-for="(trial, i) in trials">
@@ -68,11 +76,11 @@ const selected_items =
         return index % 2 != 0;
       });
 // select itemName only
-const sampled_items = _.sampleSize(selected_items, n_vignettes).map(
-  (element) => {
-    return element.itemName;
-  }
-)
+const sampled_items = _.sampleSize(selected_items, n_vignettes)//.map(
+//   (element) => {
+//     return element.itemName;
+//   }
+// )
 console.log(sampled_items)
 
 // select one trial per sampled item
@@ -112,7 +120,7 @@ export default {
   components: { FreetypingScreen },
   data() {
     return {
-      trials: _.shuffle(_.concat( trials, _.sampleSize(fillers, n_fillers)))
+      trials: _.shuffle(_.concat( sampled_items, _.sampleSize(fillers, n_fillers)))
     };
   },
   computed: {
