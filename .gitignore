@@ -1,1 +1,2 @@
-experiments/qa_explanations/node_modules/
+experiments/qa_explanations/node_modules/*
+experiments/goal_sampling/node_modules/*
