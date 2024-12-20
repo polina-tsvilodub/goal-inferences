@@ -14,6 +14,7 @@ jobs:
       matrix:
         folder:
           - experiments/qa_explanations/
+          - experiments/goal_sampling/
 
     runs-on: ubuntu-latest
     steps:
