@@ -59,7 +59,7 @@ function createText(trial){
         var response = trial.competitor_response //trial.answer
         var character = character_response.replace(" replies:", "").toLowerCase();
         console.log(character)
-        var slide_text = [vignette_start, context, vignette_continuation, "\"".concat(question).concat("\""), "\\n\\n", character_response, ['"', response.trim(), '"'].join(""), "\\n\\n", "Please explain to Bo why the ", character, " response is reasonable, i.e., which thoughts would justify giving this response instead of another one."].join(" ");
+        var slide_text = [vignette_start, context, vignette_continuation, "\"".concat(question).concat("\""), "\\n\\n", character_response, ['"', response.trim(), '"'].join(""), "\\n\\n", "Please explain to Bo why the ", character, "'s response is reasonable, i.e., which thoughts would justify giving this response instead of another one."].join(" ");
       }
       return slide_text
 };
