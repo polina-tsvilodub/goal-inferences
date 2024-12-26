@@ -57,9 +57,9 @@ function createText(trial){
         var slide_text = [vignette_start, context, vignette_continuation, "\"".concat(question).concat("\""), "\\n\\n"].join(" ");
       } else {
         var response = trial.competitor_response //trial.answer
-        var character = character_response.replace(" replies:", "").toLowerCase();
+        var character = character_response.replace(" replies:", "").toLowerCase().trim();
         console.log(character)
-        var slide_text = [vignette_start, context, vignette_continuation, "\"".concat(question).concat("\""), "\\n\\n", character_response, ['"', response.trim(), '"'].join(""), "\\n\\n", "Please explain to Bo why the ", [character, "'s"].join(""), " response is reasonable, i.e., which thoughts would justify giving this response instead of another one."].join(" ");
+        var slide_text = [vignette_start, context, vignette_continuation, "\"".concat(question).concat("\""), "\\n\\n", character_response, ['"', response.trim(), '"'].join(""), "\\n\\n", "Please explain to Bo why ", [character, "'s"].join(""), " response is reasonable, i.e., which thoughts would justify giving this response instead of another one."].join(" ");
       }
       return slide_text
 };
