@@ -71,7 +71,7 @@ function createText(trial){
         var response = trial.answer
         var character = character_response.replace(" replies:", "").toLowerCase();
         console.log(character)
-        var slide_text = [vignette_start, context, vignette_continuation, "\"".concat(question).concat("\""), "\\n\\n", "Please name at least three possible plausible goals that the questioner might have in mind when asking their question."].join(" ");
+        var slide_text = [vignette_start, context, vignette_continuation, "\"".concat(question).concat("\""), "\\n\\n", "Please name at least three plausible goals that ", trial.questioner, " might have in mind when asking their question."].join(" ");
       }
       return slide_text
 };
