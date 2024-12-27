@@ -9,7 +9,8 @@
               settingName: trial.settingName,
               trial_type: trial_type,
               correct_response: trial.correct_response,
-              explanation: trial.answer
+              explanation: trial.answer,
+              question: trial.question
             }"
           />
 
