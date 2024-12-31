@@ -1,0 +1,54 @@
+---
+title: "Verifying QA task decomposition"
+author: "PT"
+date: "2024-12-31"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+```
+
+# Explaining answers
+
+Below we look at descriptive stats over different types of explanations participants generate, when exposed to competitor responses from case studies 2 and 3. The situations and responses are presented in third person. These results are from pilots in contexts where the participants explain the answers to an alien Bo.
+
+```{r, echo=FALSE}
+cs2 <- read_csv("../data/qa_explanations/results_8_cs2_pilot2.csv")
+cs3 <- read_csv("../data/qa_explanations/results_9_cs3_pilot1.csv")
+```
+
+Below we plot the counts of the different explanations.
+```{r}
+cs2_main <- cs2 %>% filter(correct_response == "main") %>%
+  mutate(experiment = "case study 2")
+cs3_main <- cs3 %>% filter(correct_response == "main") %>%
+ mutate(experiment = "case study 3")
+
+explanations_pilot <- rbind(cs2_main, cs3_main)
+
+explanations_pilot %>%
+  group_by(experiment, category) %>%
+  summarise(
+    category_count = n()
+  ) %>%
+  ggplot(., aes(x = category, y = category_count, fill = category)) +
+  geom_col() +
+  facet_wrap(experiment~.)
+```
+
+# Inferring goals from questions
+
+Below we preprocess and analyse the results for the pilot where participants suggested three possible goals a questioner had in mind, given the context and the question. Again, the participants' task was to explain questioning behavior to an alien Bo.
+
+```{r}
+goals_cs2 <- read_csv("../data/goal_sampling/results_7_cs2_pilot1.csv") %>%
+  filter(correct_response == "main")
+goals_cs2_long <- goals_cs2 %>%
+  pivot_longer(cols = c(answer1, answer2, answer3), names_to = "answer_num", values_to = "sampled_goals")
+#goals_cs2_long %>% write_csv("../data/goal_sampling/results_7_cs2_pilot1_long.csv")
+```
