@@ -59,6 +59,9 @@ function createText(trial){
       var itemOrder = _.shuffle(['competitor', 'sameCategory', 'otherCategory'])
       console.log(itemOrder)
       var vignette_start = trial.vignette_start
+      // only use the context without options: drop last chunk after a full stop, concat the senstences before again
+      var vignette_start_clean = vignette_start.split(".").slice(0, -1).join(".")
+      var vignette_full = [vignette_start_clean, trial.vignette_continuation].join(".")
       var vignette_continuation = trial.vignette_continuation
       var question = trial.question
       var character_response = trial.character_template
@@ -72,7 +75,8 @@ function createText(trial){
         var response = trial.answer
         var character = character_response.replace(" replies:", "").toLowerCase();
         console.log(character)
-        var slide_text = [vignette_start, context, vignette_continuation, "\"".concat(question).concat("\""), "\\n\\n", "Please name at least three plausible goals that ", trial.questioner, " might have in mind when asking their question."].join(" ");
+        // vignette_start, context, vignette_continuation
+        var slide_text = [vignette_full, "\"".concat(question).concat("\""), "\\n\\n", "Please name at least three plausible goals that ", trial.questioner, " might have in mind when asking their question."].join(" ");
       }
       return slide_text
 };
