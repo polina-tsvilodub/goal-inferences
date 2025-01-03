@@ -58,7 +58,7 @@
 
 <script>
 import _ from 'lodash';
-import items from '../trials/items.csv';
+import items from '../trials/items_cs3.csv';
 import trialsAll from '../trials/cs2_human_competitors.csv';
 import fillersAll from '../trials/fillers_split_cogsci.csv';
 import FreetypingScreen from './FreeTypingScreen';
