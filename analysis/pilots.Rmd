@@ -91,22 +91,37 @@ goals_cs2_p2_long <- goals_cs2_p2 %>%
   pivot_longer(cols = c(answer1, answer2, answer3), names_to = "answer_num", values_to = "sampled_goals")
 #goals_cs2_p2_long %>% write_csv("../data/goal_sampling/results_10_cs2_pilot2_long.csv")
 
-goals_cs2_p2_long <- read_csv("../data/goal_sampling/results_10_cs2_pilot2_long.csv")
+goals_cs3 <- read_csv("../data/goal_sampling/results_11_cs3_pilot1.csv") %>%
+  filter(correct_response == "main")
+goals_cs3_long <- goals_cs3 %>%
+  pivot_longer(cols = c(answer1, answer2, answer3), names_to = "answer_num", values_to = "sampled_goals")
+#goals_cs3_long %>% write_csv("../data/goal_sampling/results_11_cs3_pilot1_long.csv")
+
+goals_cs2_p2_long <- read_csv("../data/goal_sampling/results_10_cs2_pilot2_long.csv") %>%
+  mutate(experiment = "case study 2")
+goals_cs3_long <- read_csv("../data/goal_sampling/results_11_cs3_pilot1_long.csv") %>%
+   mutate(experiment = "case study 3") %>% filter(category != "other")
+goals_long <- rbind(goals_cs2_p2_long, goals_cs3_long)
 ```
 
 The goals were manually annotated into the same three categories as in pilot 1, but included a more fine-grained distinction between "general" goals and "feature"-mentioning goals. The feature-mentioning goals appealed to the relevant feature of the target (e.g., "wants to do martial arts" rather than just saying "wants to do kickboxing"). Generally, compared to the pilot above, the variation in the contents was larger, the subordinate responses more often mentioned social goals (e.g., the question as an excuse to start a conversation with the cashier). 
+In case study 3, there were a few particular aspects to be noted: the larger proportion of feature-target responses is partially driven by repetitions of features from the context (e.g., "wants to reach the window"). The distinction between feature- and non-feature subordinate / superordinate goals was a bit more difficult to draw (e.g., it was unclear whether goals like "to avoid cutting or slippery when holding the mirror" were referencing a feature in the same sense as the target feature of a blanket being soft).
 
 ```{r}
-goals_cs2_p2_long_processed <- goals_cs2_p2_long %>%
+goals_long_processed <- goals_long %>%
   mutate(category_split = str_split(category, "-")) %>% 
   unnest_wider(category_split, names_sep = "wide") %>%
   rename(level = category_splitwide1, is_feature = category_splitwide2) %>%
   mutate(is_feature = ifelse(is.na(is_feature), "general", "feature"))
 
-goals_cs2_p2_long_processed %>%
-  group_by(level, is_feature) %>%
-  summarize(category_prop = n() / nrow(goals_cs2_p2_long_processed)) %>%
+goals_long_processed %>%
+  group_by(experiment) %>%
+  mutate(expt_count = n()) %>%
+  group_by(experiment, level, is_feature) %>%
+  summarize(category_prop = n() / expt_count) %>%
+  unique() %>%
   ggplot(., aes(x = level, y = category_prop, fill = is_feature)) +
-  geom_col()
+  geom_col() +
+  facet_wrap(experiment~.)
 
 ```
