@@ -56,6 +56,104 @@ explanations_pilot %>%
 
 ![](pilots_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
+## Pilot 3
+
+In this pilot for cs 2 materials, we update the instructions on each
+main trial to include the following: “…, which thoughts would justify
+mentioning the ‘competitor’ instead of mentioning something else”.
+
+Furthermore, we introduce a more fine-grained categorization of
+participants’ responses:
+
+- *reference to goals* (clearly stating what the questioner wants to
+  do); example:
+  - “Netflix is a service that provides movies (along with other
+    content). It is possible that the friend may want to watch a movie
+    so the statement that they have movies may satisfy their need.”
+  - “This response is justified because gingerbread is similar to
+    cookies in texture and purpose (a sweet snack), and the flight
+    attendant aims to offer something close to what the passenger might
+    enjoy.”
+  - “Bo, your roommate suggests sunscreen in response to the friend’s
+    request for an umbrella since it’s a good strategy to avoid sunburn,
+    which is probably the friend’s top concern.”
+- *reference to needs* (includes “being helpful to questioner”);
+  examples:
+  - “The assistant clearly answers the question by saying that they
+    don’t have what he is looking for but offers an alternative that is
+    more helpful than simply stopping the conversation there (which
+    would have been less helpful). The alternative may or may not be
+    acceptable but is offered just in case”
+  - “He responded with a circus show because he sees the woman is
+    looking for a theatre performance for children. They do not have a
+    theatre performance, but the circus show is for children if she is
+    looking for something different.”
+  - “…another option they might like”
+  - “The class that was suggested is close enough to what the student
+    wanted, the one that was not offered.”
+  - “A ziplock bag could be used instead of a box.”
+  - “The response is responsible in the sense that she can use the hair
+    dryer to dry her hair.”
+- *reference to desires / interests / preferences* (of the questioner),
+  more likely mentioning some features
+  - “Firstly since they don’t have the item the assistant must say they
+    do not have it. The assistant however wants to be helpful and knows
+    they are interested in Jewellery and therefore offers a plausible
+    alternative that they may or may not be interested in”
+- *similarity* (or relatedness / being reasonable) of the items without
+  mentioning the questioner; examples:
+  - “Once again, he is simply explaining that what she is asking they do
+    not have, but he is offering an alternative.”
+  - “Thrillers are closely related to mysteries as they are both
+    exciting and keep the reader guessing about the ending.”
+- *feature* (mentioning relevant functional dimension); example:
+  - “Neither a cheese pizza nor a pepperoni pizza have vegetables on
+    them.”
+  - “This is a reasonable response because he doesn’t not own a broom,
+    however a vacuum is capable of doing the same function as a broom.”
+- *literal*; example:
+  - “The cashier responds by saying what they currently sell which is
+    mystery novels.”
+- *other* unclassifiable responses
+
+``` r
+cs2_pilot3 <- read_csv("../data/qa_explanations/results_12_cs2_pilot3.csv")
+```
+
+    ## Rows: 55 Columns: 18
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## chr (11): answer, fine_category, comments, correct_response, education, expl...
+    ## dbl  (7): submission_id, age, experiment_duration, experiment_end_time, expe...
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+``` r
+cs2_pilot3_main <- cs2_pilot3 %>% filter(correct_response == "main") %>%
+  mutate(experiment = "case study 2 pilot 3")
+
+explanations_pilot_fineCat <- rbind(cs2_main %>% select(-category),
+                                    cs3_main %>% select(-category), 
+                                    cs2_pilot3_main)
+
+explanations_pilot_fineCat %>%
+  filter(fine_category != "other") %>%
+  group_by(experiment, fine_category) %>%
+  summarise(
+    category_count = n()
+  ) %>%
+  ggplot(., aes(x = fine_category, y = category_count, fill = fine_category)) +
+  geom_col() +
+  facet_wrap(experiment~.) +
+  theme(axis.text.x = element_text(angle = 30, hjust = 1))
+```
+
+    ## `summarise()` has grouped output by 'experiment'. You can override using the
+    ## `.groups` argument.
+
+![](pilots_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+
 # Inferring goals from questions
 
 The live experiment can be found
@@ -103,7 +201,7 @@ goals_cs2_long %>%
   geom_col()
 ```
 
-![](pilots_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+![](pilots_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
 ## Pilot 2
 
@@ -176,4 +274,4 @@ goals_long_processed %>%
     ## `summarise()` has grouped output by 'experiment', 'level', 'is_feature'. You
     ## can override using the `.groups` argument.
 
-![](pilots_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+![](pilots_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
